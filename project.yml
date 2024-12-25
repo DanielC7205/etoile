@@ -1,0 +1,155 @@
+
+name: Etoile
+options:
+  bundleIdPrefix: page.juliette
+  deploymentTarget:
+    iOS: 17.0
+    watchOS: "11.0"
+    tvOS: "18.0"
+packages:
+  EtoileKit:
+    path: ../etoilekit
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit
+    from: 5.7.1
+  Bonjour:
+    url: https://github.com/eugenebokhan/Bonjour.git
+    from: 2.1.0
+  SimpleKeychain:
+    url: https://github.com/auth0/SimpleKeychain
+    from: "1.0"
+  IQKeyboardManagerSwift:
+    url: https://github.com/hackiftekhar/IQKeyboardManager.git
+    from: "6.5.0"
+targets:
+  etoile:
+    type: application
+    platform: iOS
+    settings:
+      DEVELOPMENT_TEAM: ${DEV_TEAM}
+    info:
+      path: etoile/Info.plist
+      properties:
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight, UIInterfaceOrientationPortraitUpsideDown]
+        UILaunchStoryboardName: LaunchScreen
+        CFBundleVersion: ${ETOILE_VERSION}
+        CFBundleGetInfoString: ${ETOILE_VERSION}
+        CFBundleShortVersionString: ${ETOILE_VERSION}
+        UIBackgroundModes:
+          - audio
+        NSLocalNetworkUsageDescription: Gives Etoile the ability to control playback on other devices
+        NSBonjourServices:
+          - _etoileplayback._tcp
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+    sources:
+      - path: etoile
+    dependencies:
+      - target: etoile.EtoileWatchos
+      - package: EtoileKit
+      - package: SnapKit
+      - package: Bonjour
+      - package: IQKeyboardManagerSwift
+    scheme:
+      run:
+        - iOS
+  iosTests:
+    platform: iOS
+    type: bundle.ui-testing
+    sources:
+      - etoileUITests
+    dependencies:
+      - target: etoile
+      - package: EtoileKit
+      - package: SnapKit
+      - package: Bonjour
+    info:
+      path: etoileUITests/Info.plist
+      properties:
+        CFBundleDevelopmentRegion: $(DEVELOPMENT_LANGUAGE)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: 6.0
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: BNDL
+        CFBundleShortVersionString: 1.0
+        CFBundleVersion: 1
+
+  etoile.EtoileWatchos:
+    type: application
+    options:
+      bundleIdPrefix: page.juliette
+    platform: watchOS
+    settings:
+      DEVELOPMENT_TEAM: ${DEV_TEAM}
+    type: application
+    sources:
+      - path: etoile-watch Watch App
+    dependencies:
+      - package: EtoileKit
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      base:
+       CURRENT_PROJECT_VERSION: 0.0.1
+    info:
+      path: etoile-watch Watch App/Info.plist
+      properties:
+        WKApplication: YES
+        WKRunsIndependentlyOfCompanionApp: YES
+        WKAppBundleIdentifier: page.juliette.etoile
+        WKCompanionAppBundleIdentifier: page.juliette.etoile
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleShortVersionString: ${ETOILE_VERSION}
+        CFBundleVersion: ${ETOILE_VERSION}
+    scheme:
+      run:
+        - WatchOS
+  etoile.EtoileTvOS:
+    type: application
+    platform: tvOS
+    settings:
+      DEVELOPMENT_TEAM: ${DEV_TEAM}
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      base:
+        CURRENT_PROJECT_VERSION: 0.0.1
+    info:
+      path: tvos/Info.plist
+      properties:
+        CFBundleShortVersionString: ${ETOILE_VERSION}
+        CFBundleVersion: ${ETOILE_VERSION}
+        UIBackgroundModes:
+          - audio
+    sources:
+      - path: tvos
+    scheme:
+      run:
+        - tvOS
+    dependencies:
+      - package: EtoileKit
+      - package: SimpleKeychain
+
+  tvOSTests:
+    platform: tvOS
+    type: bundle.ui-testing
+    sources:
+      - tvosUITests
+    dependencies:
+      - target: etoile.EtoileTvOS
+      - package: EtoileKit
+      - package: SimpleKeychain
+    info:
+      path: etoileUITests/Info.plist
+      properties:
+        CFBundleDevelopmentRegion: $(DEVELOPMENT_LANGUAGE)
+        CFBundleExecutable: $(EXECUTABLE_NAME)
+        CFBundleIdentifier: $(PRODUCT_BUNDLE_IDENTIFIER)
+        CFBundleInfoDictionaryVersion: 6.0
+        CFBundleName: $(PRODUCT_NAME)
+        CFBundlePackageType: BNDL
+        CFBundleShortVersionString: 1.0
+        CFBundleVersion: 1

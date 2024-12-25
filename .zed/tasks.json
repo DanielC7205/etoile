@@ -1,0 +1,6 @@
+[
+  {
+    "label": "Run iOS",
+    "command": "make run-ios"
+  }
+]
