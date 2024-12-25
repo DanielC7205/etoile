@@ -13,7 +13,7 @@ Password: verysecurepassword
 ## Thank yous:)
 [This](https://jmshrv.com/posts/jellyfin-api/) article helped me make sense of the Jellyfin API
 Depedencies:
-- [EtoileKit]()
+- [EtoileKit](https://git.sr.ht/~juliette/etoilekit)
 - [JellyfinAPI](https://github.com/jellyfin/jellyfin-sdk-swift)
 - [simplekeychain](https://github.com/auth0/SimpleKeychain)
 - [Bonjour](https://github.com/eugenebokhan/bonjour)
