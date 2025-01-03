@@ -11,8 +11,9 @@ import OSLog
 
 struct SettingsView: View {
     @State var showSheet = false
+    @State var showLogoutSheet = false
     @Binding var done: Bool
-
+    @Binding var showDevSheet: Bool
     var body: some View {
         Button(action: {
             showSheet = true
@@ -26,9 +27,30 @@ struct SettingsView: View {
         }
         
         Button {
-            done = false
+            showLogoutSheet = true
         } label: {
             Text("Logout")
         }
+        .alert(isPresented: $showLogoutSheet) {
+            Alert(title: Text("Logout"), message: Text("Are you sure you want to logout?"), primaryButton: .destructive(Text("Logout")) {
+                let auth = EtoileAuth()
+                do {
+                    try auth.logout() // Logout
+                    done = false
+                } catch {
+                    os_log(.error, "Error logging out: %@", error.localizedDescription)
+                }
+            }, secondaryButton: .cancel())
+        }
+        
+        #if DEBUG
+        Button {
+            showDevSheet = true
+        } label: {
+            Image(systemName: "gear")
+            Text("Developer Settings")
+        }
+        #endif
+            
     }
 }
