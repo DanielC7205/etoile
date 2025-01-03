@@ -16,15 +16,19 @@ struct tvosApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @State var purchased = false
     @State var done = false
+    @State var showDevSheet = false
     
     var body: some Scene {
         WindowGroup {
             HStack {
                     if !done {
-                        SignInViewController(done: $done)
+                        SignInViewController(done: $done, showDevSheet: $showDevSheet)
                     } else {
-                        ContentView(done: $done)
+                        ContentView(done: $done, showDevSheet: $showDevSheet)
                     }
+            }
+            .sheet(isPresented: $showDevSheet) {
+                DeveloperView()
             }
             .onAppear {
                 do {
@@ -38,7 +42,9 @@ struct tvosApp: App {
                 }
             }
         }
+        
     }
+        
     
     
 }
