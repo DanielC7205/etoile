@@ -17,8 +17,27 @@ struct FullFetchLibraryView: View {
     
     var body: some View {
         VStack {
-            Text("One sec as we fetch your library...")
-                .foregroundStyle(Color(uiColor: .etoileTextColor()))
+            Section {
+                Image("EtoileIcon")
+                    .resizable()
+                         .aspectRatio(contentMode: .fit)
+                         .frame(width: 300, height: 300, alignment: .topLeading)
+                         .cornerRadius(20)
+                         .padding(.all)
+                         
+                    .accessibilityIdentifier("logo")
+                    .accessibilityLabel("Etoile Logo")
+                    .accessibilityValue("Etoile Logo")
+                Text("Welcome to Etoile")
+                    .font(.title)
+                    .accessibilityIdentifier("welcome")
+                
+                Text("Relax and enjoy the stars while we load your library...")
+                    .multilineTextAlignment(.center)
+                    .font(.subheadline)
+                    .italic()
+                    .accessibilityIdentifier("description")
+            }
             if page == .albums {
                 Text("Getting your albums")
                     .foregroundStyle(Color(uiColor: .etoileTextColor()))
@@ -35,8 +54,8 @@ struct FullFetchLibraryView: View {
                     callback()
                 }) {
                     Text("Tap me to start using Etoile!")
-                        .foregroundStyle(Color(uiColor: .etoileTextColor()))
-                        .backgroundStyle(Color(uiColor: .etoileButtonBackground()))
+//                        .foregroundStyle(Color(uiColor: .etoileTextColor()))
+//                        .backgroundStyle(Color(uiColor: .etoileButtonBackground()))
                 }
                 .accessibilityLabel("done")
             } else if page == .error {
@@ -62,6 +81,7 @@ struct FullFetchLibraryView: View {
                 page = .error
             }
         }
+        .transition(.opacity)
     }
 }
 
