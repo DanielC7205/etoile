@@ -11,6 +11,7 @@ struct ContentView: View {
     
     @State var tab: Tabs = .albums
     @Binding var done: Bool
+    @Binding var showDevSheet: Bool
 
     
     var body: some View {
@@ -28,7 +29,7 @@ struct ContentView: View {
                 SearchView(tab: $tab)
             }
             Tab("Settings", systemImage: "gear", value: .settings) {
-                SettingsView(done: $done)
+                SettingsView(done: $done, showDevSheet: $showDevSheet)
             }
         }
     }
